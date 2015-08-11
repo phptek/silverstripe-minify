@@ -1,8 +1,8 @@
 <?php
 /**
  * 
- * An alternative {@link Requirements} backend for SilverStripe for the provision
- * of a simple file-minification API for both JavaScript and CSS files.
+ * An alternative SilverStripe {@link Requirements} backend for the provision
+ * of a simple javaScript and CSS file-minification API.
  * 
  * @author Nathan Cox
  * @package silverstripe-minify
@@ -27,7 +27,7 @@ class Minify_Requirements_Backend extends Requirements_Backend {
 		increase_time_limit_to();
 		
 		if($isJS && $this->combine_js_with_jsmin) {
-			$content = JSMin::minify($content);
+			$content = JSMin::minify($content) . ';';
 		} elseif(stripos($filename, '.css')) {
 			$minifyCSSConfig = array();
 
@@ -38,7 +38,7 @@ class Minify_Requirements_Backend extends Requirements_Backend {
 			$content = Minify_CSS::minify($content, $minifyCSSConfig);
 		}
 
-		$content .= ($isJS ? ';' : '') . PHP_EOL;
+		$content .= PHP_EOL;
 		return $content;
 	}
 
